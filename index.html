@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>For Sakshi 💖</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(to right, #ff758c, #ff7eb3);
+            font-family: 'Arial', sans-serif;
+            text-align: center;
+            color: white;
+        }
+
+        .container {
+            margin-top: 100px;
+        }
+
+        h1 {
+            font-size: 45px;
+            animation: glow 2s infinite alternate;
+        }
+
+        p {
+            font-size: 22px;
+            margin: 20px;
+        }
+
+        @keyframes glow {
+            from { text-shadow: 0 0 10px white; }
+            to { text-shadow: 0 0 20px red; }
+        }
+
+        button {
+            padding: 12px 25px;
+            font-size: 18px;
+            background: white;
+            color: #ff4d6d;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+
+        button:hover {
+            background: #ff4d6d;
+            color: white;
+        }
+
+        .hidden {
+            display: none;
+            font-size: 28px;
+            margin-top: 30px;
+        }
+
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+    <h1>🎂 Happy Birthday Sakshi 💖</h1>
+
+    <p>
+        Today is special because YOU were born 🌸<br>
+        The most beautiful girl in my life ✨<br><br>
+
+        Sakshi, you are my happiness, my smile, my everything 💕<br>
+        Every moment with you feels like a dream come true 💫
+    </p>
+
+    <p>
+        On your special day, I just want to say... ❤️
+    </p>
+
+    <button onclick="showLove()">Click here 💌</button>
+
+    <div id="message" class="hidden">
+        💖 Sakshi, I love you so much 💖 <br><br>
+        Will you be mine forever? 💍🥺
+    </div>
+</div>
+
+<script>
+    function showLove() {
+        document.getElementById("message").style.display = "block";
+    }
+</script>
+
+</body>
+</html>

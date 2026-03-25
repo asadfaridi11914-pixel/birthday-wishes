@@ -6,24 +6,30 @@
 <style>
 body {
     margin: 0;
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Segoe UI', sans-serif;
     text-align: center;
+    background: linear-gradient(135deg, #ff758c, #ff7eb3);
     overflow: hidden;
-    background: linear-gradient(135deg, #ffafbd, #ffc3a0);
 }
 
 /* Container */
 .container {
     margin-top: 120px;
-    background: rgba(255,255,255,0.25);
+    background: rgba(255,255,255,0.2);
     backdrop-filter: blur(15px);
-    border-radius: 25px;
+    border-radius: 20px;
     padding: 40px;
     width: 60%;
     margin-left: auto;
     margin-right: auto;
     color: white;
-    box-shadow: 0 0 30px rgba(255, 105, 180, 0.4);
+    box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+    animation: fadeIn 2s ease;
+}
+
+@keyframes fadeIn {
+    from {opacity: 0; transform: translateY(30px);}
+    to {opacity: 1; transform: translateY(0);}
 }
 
 h1 {
@@ -31,13 +37,47 @@ h1 {
 }
 
 /* Button */
-button {
-    padding: 12px 25px;
+.main-btn {
+    padding: 14px 30px;
     font-size: 18px;
     border: none;
-    border-radius: 25px;
+    border-radius: 30px;
+    background: white;
+    color: #ff4d6d;
     cursor: pointer;
+    transition: 0.3s;
+}
+
+.main-btn:hover {
+    transform: scale(1.1);
+}
+
+/* Popup */
+.popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    background: white;
+    color: #ff4d6d;
+    padding: 40px;
+    border-radius: 20px;
+    text-align: center;
+    transition: 0.4s ease;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+}
+
+.popup.show {
+    transform: translate(-50%, -50%) scale(1);
+}
+
+/* Buttons */
+.yes, .no {
+    padding: 10px 20px;
     margin: 10px;
+    border-radius: 20px;
+    border: none;
+    cursor: pointer;
 }
 
 .yes {
@@ -51,36 +91,29 @@ button {
     position: absolute;
 }
 
-/* Popup */
-.popup {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%) scale(0);
-    background: white;
-    color: deeppink;
-    padding: 35px;
-    border-radius: 25px;
-    text-align: center;
-    transition: 0.4s;
+/* Result */
+#result {
+    margin-top: 20px;
+    font-size: 22px;
+    animation: pop 1s ease;
 }
 
-.popup.show {
-    transform: translate(-50%, -50%) scale(1);
+@keyframes pop {
+    0% {transform: scale(0);}
+    100% {transform: scale(1);}
 }
 
 /* Hearts */
 .heart {
     position: absolute;
-    font-size: 22px;
+    font-size: 20px;
     animation: float 4s linear infinite;
 }
 
 @keyframes float {
-    0% { transform: translateY(100vh); }
-    100% { transform: translateY(-10vh); }
+    0% {transform: translateY(100vh);}
+    100% {transform: translateY(-10vh);}
 }
-
 </style>
 </head>
 
@@ -88,9 +121,9 @@ button {
 
 <div class="container">
     <h1>🎂 Happy Birthday Sakshi 💖</h1>
-    <p>You make my life beautiful ✨</p>
+    <p>You make my world magical ✨</p>
 
-    <button onclick="showLove()">Click here 💌</button>
+    <button class="main-btn" onclick="startLove()">Click here 💌</button>
 </div>
 
 <!-- Popup -->
@@ -98,44 +131,61 @@ button {
     <h2>💖 Sakshi 💖</h2>
     <p>Will you be mine forever? 💍🥺</p>
 
-    <button class="yes" onclick="accepted()">YES 💖</button>
+    <button class="yes" onclick="yesClick()">YES 💖</button>
     <button class="no" id="noBtn">NO 😢</button>
 
     <p id="result"></p>
 </div>
 
 <!-- Music -->
-<audio id="music" src="https://www.bensound.com/bensound-music/bensound-love.mp3"></audio>
+<audio id="music">
+    <source src="https://www.bensound.com/bensound-music/bensound-love.mp3" type="audio/mp3">
+</audio>
 
 <script>
-function showLove() {
-    document.getElementById("popup").classList.add("show");
-    document.getElementById("music").play();
+function startLove() {
+    let popup = document.getElementById("popup");
+    popup.classList.add("show");
+
+    let music = document.getElementById("music");
+    music.play().catch(()=>{});
 
     // hearts
-    for(let i=0; i<20; i++){
+    for(let i=0; i<25; i++){
         let heart = document.createElement("div");
         heart.innerHTML = "💖";
         heart.className = "heart";
-        heart.style.left = Math.random() * 100 + "vw";
+        heart.style.left = Math.random()*100 + "vw";
+        heart.style.animationDuration = (2 + Math.random()*3) + "s";
         document.body.appendChild(heart);
 
-        setTimeout(() => heart.remove(), 4000);
+        setTimeout(()=>heart.remove(),4000);
     }
 }
 
-// YES clicked
-function accepted() {
-    document.getElementById("result").innerHTML = 
-    "💖 Now Asad is totally yours 💖";
+// YES
+function yesClick() {
+    let result = document.getElementById("result");
+    result.innerHTML = "💖 Now Asad is totally yours 💖";
+
+    // more hearts burst
+    for(let i=0; i<30; i++){
+        let heart = document.createElement("div");
+        heart.innerHTML = "💖";
+        heart.className = "heart";
+        heart.style.left = Math.random()*100 + "vw";
+        document.body.appendChild(heart);
+
+        setTimeout(()=>heart.remove(),4000);
+    }
 }
 
-// NO button moves
+// NO button escape
 let noBtn = document.getElementById("noBtn");
 
-noBtn.addEventListener("mouseover", function() {
-    let x = Math.random() * window.innerWidth;
-    let y = Math.random() * window.innerHeight;
+noBtn.addEventListener("mouseover", () => {
+    let x = Math.random() * (window.innerWidth - 100);
+    let y = Math.random() * (window.innerHeight - 100);
 
     noBtn.style.left = x + "px";
     noBtn.style.top = y + "px";

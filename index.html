@@ -122,7 +122,7 @@ button {
 <div class="container">
     <h1>🎂 Happy Birthday Sakshi 💖</h1>
     <p>You are my forever ✨</p>
-    <button onclick="startLove()">Click here 💌</button>
+    <button onclick="startLove(this)">Click here 💌</button>
 </div>
 
 <div class="popup" id="popup">
@@ -137,26 +137,24 @@ button {
     <div id="finalText"></div>
 </div>
 
-<!-- ✅ AUDIO -->
-<audio id="music" loop preload="auto" playsinline>
+<!-- ✅ SIMPLE AUDIO (NO AUTOPLAY TRICKS) -->
+<audio id="music" loop>
     <source src="https://cdn.pixabay.com/download/audio/2023/03/21/audio_5f9c4a8a07.mp3?filename=romantic-background-141997.mp3" type="audio/mpeg">
 </audio>
 
 <script>
 
-let music = document.getElementById("music");
+/* 🔥 MAIN BUTTON (GUARANTEED PLAY) */
+function startLove(btn) {
 
-/* 🔥 MAIN BUTTON */
-function startLove() {
+    let music = document.getElementById("music");
 
-    // PLAY IMMEDIATELY (inside click)
+    // PLAY DIRECTLY FROM CLICK
     music.currentTime = 0;
-    music.play().catch(() => {});
+    music.play();
 
-    // fallback (if blocked)
-    document.body.addEventListener("click", () => {
-        music.play();
-    }, { once: true });
+    // UI update
+    btn.innerText = "Playing... 🎶";
 
     document.getElementById("popup").classList.add("show");
 

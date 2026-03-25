@@ -9,31 +9,25 @@ body {
     font-family: 'Poppins', sans-serif;
     text-align: center;
     overflow: hidden;
-    background: linear-gradient(135deg, #ff9a9e, #fecfef);
+    background: linear-gradient(135deg, #ffafbd, #ffc3a0);
 }
 
-/* Glass container */
+/* Container */
 .container {
     margin-top: 120px;
-    background: rgba(255,255,255,0.2);
-    backdrop-filter: blur(10px);
-    border-radius: 20px;
-    padding: 30px;
+    background: rgba(255,255,255,0.25);
+    backdrop-filter: blur(15px);
+    border-radius: 25px;
+    padding: 40px;
     width: 60%;
     margin-left: auto;
     margin-right: auto;
     color: white;
+    box-shadow: 0 0 30px rgba(255, 105, 180, 0.4);
 }
 
-/* Heading */
 h1 {
-    font-size: 45px;
-    animation: glow 2s infinite alternate;
-}
-
-@keyframes glow {
-    from { text-shadow: 0 0 10px white; }
-    to { text-shadow: 0 0 25px hotpink; }
+    font-size: 48px;
 }
 
 /* Button */
@@ -42,16 +36,19 @@ button {
     font-size: 18px;
     border: none;
     border-radius: 25px;
-    background: white;
-    color: hotpink;
     cursor: pointer;
-    transition: 0.3s;
+    margin: 10px;
 }
 
-button:hover {
-    background: hotpink;
+.yes {
+    background: #ff4d6d;
     color: white;
-    transform: scale(1.1);
+}
+
+.no {
+    background: white;
+    color: #ff4d6d;
+    position: absolute;
 }
 
 /* Popup */
@@ -61,11 +58,10 @@ button:hover {
     left: 50%;
     transform: translate(-50%, -50%) scale(0);
     background: white;
-    color: hotpink;
-    padding: 30px;
-    border-radius: 20px;
+    color: deeppink;
+    padding: 35px;
+    border-radius: 25px;
     text-align: center;
-    z-index: 10;
     transition: 0.4s;
 }
 
@@ -73,16 +69,11 @@ button:hover {
     transform: translate(-50%, -50%) scale(1);
 }
 
-.popup h2 {
-    font-size: 30px;
-}
-
-/* Floating hearts */
+/* Hearts */
 .heart {
     position: absolute;
-    color: pink;
-    font-size: 20px;
-    animation: float 5s linear infinite;
+    font-size: 22px;
+    animation: float 4s linear infinite;
 }
 
 @keyframes float {
@@ -97,11 +88,7 @@ button:hover {
 
 <div class="container">
     <h1>🎂 Happy Birthday Sakshi 💖</h1>
-
-    <p>
-        You are the most beautiful part of my life ✨<br>
-        Every moment with you feels magical 💕
-    </p>
+    <p>You make my life beautiful ✨</p>
 
     <button onclick="showLove()">Click here 💌</button>
 </div>
@@ -109,8 +96,12 @@ button:hover {
 <!-- Popup -->
 <div class="popup" id="popup">
     <h2>💖 Sakshi 💖</h2>
-    <p>I love you so much 💕<br><br>
-    Will you be mine forever? 💍🥺</p>
+    <p>Will you be mine forever? 💍🥺</p>
+
+    <button class="yes" onclick="accepted()">YES 💖</button>
+    <button class="no" id="noBtn">NO 😢</button>
+
+    <p id="result"></p>
 </div>
 
 <!-- Music -->
@@ -121,18 +112,34 @@ function showLove() {
     document.getElementById("popup").classList.add("show");
     document.getElementById("music").play();
 
-    // Create hearts
+    // hearts
     for(let i=0; i<20; i++){
         let heart = document.createElement("div");
         heart.innerHTML = "💖";
         heart.className = "heart";
         heart.style.left = Math.random() * 100 + "vw";
-        heart.style.animationDuration = (2 + Math.random()*3) + "s";
         document.body.appendChild(heart);
 
-        setTimeout(() => heart.remove(), 5000);
+        setTimeout(() => heart.remove(), 4000);
     }
 }
+
+// YES clicked
+function accepted() {
+    document.getElementById("result").innerHTML = 
+    "💖 Now Asad is totally yours 💖";
+}
+
+// NO button moves
+let noBtn = document.getElementById("noBtn");
+
+noBtn.addEventListener("mouseover", function() {
+    let x = Math.random() * window.innerWidth;
+    let y = Math.random() * window.innerHeight;
+
+    noBtn.style.left = x + "px";
+    noBtn.style.top = y + "px";
+});
 </script>
 
 </body>

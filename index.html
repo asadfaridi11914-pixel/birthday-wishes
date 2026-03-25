@@ -9,23 +9,35 @@ body {
     font-family: 'Segoe UI', sans-serif;
     overflow: hidden;
     text-align: center;
-    background: linear-gradient(135deg, #ff6a88, #ff99ac);
+    background: radial-gradient(circle at top, #ff6a88, #ff99ac, #ffdde1);
     color: white;
 }
 
-/* Container */
+/* Main Container */
 .container {
     margin-top: 120px;
-    background: rgba(255,255,255,0.2);
+    background: rgba(255,255,255,0.15);
     backdrop-filter: blur(15px);
     padding: 40px;
     border-radius: 25px;
     width: 60%;
     margin-left: auto;
     margin-right: auto;
+    box-shadow: 0 0 40px rgba(255, 105, 180, 0.4);
+    animation: fadeIn 2s ease;
 }
 
-/* Button */
+@keyframes fadeIn {
+    from {opacity: 0; transform: translateY(50px);}
+    to {opacity: 1; transform: translateY(0);}
+}
+
+h1 {
+    font-size: 50px;
+    text-shadow: 0 0 20px white;
+}
+
+/* Buttons */
 button {
     padding: 12px 25px;
     border-radius: 25px;
@@ -54,27 +66,28 @@ button {
     transform: translate(-50%, -50%) scale(1);
 }
 
-/* Slide Page */
+/* Slide Screen */
 .slide {
     position: fixed;
     top: 0;
     left: 100%;
     width: 100%;
     height: 100%;
-    background: linear-gradient(135deg, #ff4d6d, #ff99ac);
+    background: radial-gradient(circle, #ff4d6d, #ff99ac);
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 40px;
-    transition: 0.7s ease;
+    flex-direction: column;
+    transition: 0.8s ease;
 }
 
 .slide.show {
     left: 0;
 }
 
-/* Typing effect */
+/* Typing */
 #finalText {
+    font-size: 45px;
     border-right: 3px solid white;
     white-space: nowrap;
     overflow: hidden;
@@ -88,8 +101,25 @@ button {
 }
 
 @keyframes float {
-    0% { transform: translateY(100vh); }
-    100% { transform: translateY(-10vh); }
+    0% { transform: translateY(100vh);}
+    100% { transform: translateY(-10vh);}
+}
+
+/* Fireworks */
+.firework {
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    background: white;
+    border-radius: 50%;
+    animation: explode 1s ease-out forwards;
+}
+
+@keyframes explode {
+    to {
+        transform: translate(var(--x), var(--y));
+        opacity: 0;
+    }
 }
 
 </style>
@@ -99,7 +129,7 @@ button {
 
 <div class="container">
     <h1>🎂 Happy Birthday Sakshi 💖</h1>
-    <p>You are my happiness ✨</p>
+    <p>You are my forever ✨</p>
     <button onclick="startLove()">Click here 💌</button>
 </div>
 
@@ -129,51 +159,66 @@ function startLove() {
     let music = document.getElementById("music");
     music.play().catch(()=>{});
 
-    // hearts
-    for(let i=0; i<25; i++){
-        let heart = document.createElement("div");
-        heart.innerHTML = "💖";
-        heart.className = "heart";
-        heart.style.left = Math.random()*100 + "vw";
-        document.body.appendChild(heart);
-
-        setTimeout(()=>heart.remove(),4000);
-    }
+    createHearts(25);
 }
 
-// YES click → slide comes
+// YES → FINAL MAGIC
 function yesClick() {
-    let slide = document.getElementById("slide");
-    slide.classList.add("show");
+    document.getElementById("slide").classList.add("show");
 
     typeText("💖 ASAD IS TOTALLY YOURS 💖");
 
-    // celebration hearts
-    for(let i=0; i<40; i++){
-        let heart = document.createElement("div");
-        heart.innerHTML = "💖";
-        heart.className = "heart";
-        heart.style.left = Math.random()*100 + "vw";
-        document.body.appendChild(heart);
-
-        setTimeout(()=>heart.remove(),4000);
-    }
+    createHearts(40);
+    fireworks();
 }
 
-// typing effect
+// Typing Effect
 function typeText(text) {
     let i = 0;
-    let speed = 80;
     let target = document.getElementById("finalText");
 
     function typing() {
         if (i < text.length) {
             target.innerHTML += text.charAt(i);
             i++;
-            setTimeout(typing, speed);
+            setTimeout(typing, 80);
         }
     }
     typing();
+}
+
+// Hearts generator
+function createHearts(num) {
+    for(let i=0; i<num; i++){
+        let heart = document.createElement("div");
+        heart.innerHTML = "💖";
+        heart.className = "heart";
+        heart.style.left = Math.random()*100 + "vw";
+        document.body.appendChild(heart);
+
+        setTimeout(()=>heart.remove(),4000);
+    }
+}
+
+// Fireworks 🎆
+function fireworks() {
+    for(let i=0; i<80; i++){
+        let f = document.createElement("div");
+        f.className = "firework";
+
+        let x = (Math.random()-0.5)*400 + "px";
+        let y = (Math.random()-0.5)*400 + "px";
+
+        f.style.setProperty('--x', x);
+        f.style.setProperty('--y', y);
+
+        f.style.left = "50%";
+        f.style.top = "50%";
+
+        document.body.appendChild(f);
+
+        setTimeout(()=>f.remove(),1000);
+    }
 }
 
 // NO button escape

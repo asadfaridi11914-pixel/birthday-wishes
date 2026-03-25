@@ -13,7 +13,6 @@ body {
     color: white;
 }
 
-/* Main Container */
 .container {
     margin-top: 120px;
     background: rgba(255,255,255,0.15);
@@ -37,7 +36,6 @@ h1 {
     text-shadow: 0 0 20px white;
 }
 
-/* Buttons */
 button {
     padding: 12px 25px;
     border-radius: 25px;
@@ -49,7 +47,6 @@ button {
 .yes { background: #ff4d6d; color: white; }
 .no { background: white; color: #ff4d6d; position: absolute; }
 
-/* Popup */
 .popup {
     position: fixed;
     top: 50%;
@@ -66,7 +63,6 @@ button {
     transform: translate(-50%, -50%) scale(1);
 }
 
-/* Slide Screen */
 .slide {
     position: fixed;
     top: 0;
@@ -85,7 +81,6 @@ button {
     left: 0;
 }
 
-/* Typing */
 #finalText {
     font-size: 45px;
     border-right: 3px solid white;
@@ -93,7 +88,6 @@ button {
     overflow: hidden;
 }
 
-/* Hearts */
 .heart {
     position: absolute;
     font-size: 22px;
@@ -105,7 +99,6 @@ button {
     100% { transform: translateY(-10vh);}
 }
 
-/* Fireworks */
 .firework {
     position: absolute;
     width: 6px;
@@ -121,7 +114,6 @@ button {
         opacity: 0;
     }
 }
-
 </style>
 </head>
 
@@ -133,7 +125,6 @@ button {
     <button onclick="startLove()">Click here 💌</button>
 </div>
 
-<!-- Popup -->
 <div class="popup" id="popup">
     <h2>💖 Sakshi 💖</h2>
     <p>Will you be mine forever? 💍🥺</p>
@@ -142,14 +133,13 @@ button {
     <button class="no" id="noBtn">NO 😢</button>
 </div>
 
-<!-- Final Slide -->
 <div class="slide" id="slide">
     <div id="finalText"></div>
 </div>
 
-<!-- 🎶 UPDATED MUSIC -->
-<audio id="music" loop>
-    <source src="https://docs.google.com/uc?export=download&id=1-W1nyq2Jo3Oy7cS-JM3SZjG8AO0yNJQJ" type="audio/mpeg">
+<!-- ✅ FIXED MUSIC (WORKING LINK) -->
+<audio id="music" loop preload="auto">
+    <source src="https://cdn.pixabay.com/download/audio/2023/03/21/audio_5f9c4a8a07.mp3?filename=romantic-background-141997.mp3" type="audio/mpeg">
 </audio>
 
 <script>
@@ -157,12 +147,17 @@ function startLove() {
     document.getElementById("popup").classList.add("show");
 
     let music = document.getElementById("music");
-    music.play().catch(()=>{});
+
+    music.currentTime = 0;
+    music.volume = 1;
+
+    music.play().catch(() => {
+        document.body.addEventListener("click", () => music.play(), { once: true });
+    });
 
     createHearts(25);
 }
 
-// YES → FINAL MAGIC
 function yesClick() {
     document.getElementById("slide").classList.add("show");
 
@@ -172,7 +167,6 @@ function yesClick() {
     fireworks();
 }
 
-// Typing Effect
 function typeText(text) {
     let i = 0;
     let target = document.getElementById("finalText");
@@ -187,7 +181,6 @@ function typeText(text) {
     typing();
 }
 
-// Hearts generator
 function createHearts(num) {
     for(let i=0; i<num; i++){
         let heart = document.createElement("div");
@@ -200,7 +193,6 @@ function createHearts(num) {
     }
 }
 
-// Fireworks 🎆
 function fireworks() {
     for(let i=0; i<80; i++){
         let f = document.createElement("div");
@@ -221,7 +213,6 @@ function fireworks() {
     }
 }
 
-// NO button escape
 let noBtn = document.getElementById("noBtn");
 
 noBtn.addEventListener("mouseover", () => {

@@ -7,67 +7,35 @@
 body {
     margin: 0;
     font-family: 'Segoe UI', sans-serif;
-    text-align: center;
-    background: linear-gradient(135deg, #ff6a88, #ff99ac, #ffc3a0);
     overflow: hidden;
+    text-align: center;
+    background: linear-gradient(135deg, #ff6a88, #ff99ac);
     color: white;
-}
-
-/* Animated background glow */
-body::before {
-    content: "";
-    position: absolute;
-    width: 200%;
-    height: 200%;
-    background: radial-gradient(circle, rgba(255,255,255,0.2), transparent);
-    animation: moveBg 10s infinite alternate;
-}
-
-@keyframes moveBg {
-    0% { transform: translate(-20%, -20%); }
-    100% { transform: translate(20%, 20%); }
 }
 
 /* Container */
 .container {
-    position: relative;
     margin-top: 120px;
     background: rgba(255,255,255,0.2);
     backdrop-filter: blur(15px);
-    border-radius: 25px;
     padding: 40px;
+    border-radius: 25px;
     width: 60%;
     margin-left: auto;
     margin-right: auto;
-    box-shadow: 0 10px 50px rgba(0,0,0,0.3);
-    animation: fadeIn 2s ease;
-}
-
-@keyframes fadeIn {
-    from {opacity: 0; transform: translateY(50px);}
-    to {opacity: 1; transform: translateY(0);}
-}
-
-h1 {
-    font-size: 50px;
-    text-shadow: 0 0 20px white;
 }
 
 /* Button */
-.main-btn {
-    padding: 14px 30px;
-    font-size: 18px;
-    border-radius: 30px;
+button {
+    padding: 12px 25px;
+    border-radius: 25px;
     border: none;
-    background: white;
-    color: #ff4d6d;
     cursor: pointer;
-    transition: 0.3s;
+    margin: 10px;
 }
 
-.main-btn:hover {
-    transform: scale(1.15);
-}
+.yes { background: #ff4d6d; color: white; }
+.no { background: white; color: #ff4d6d; position: absolute; }
 
 /* Popup */
 .popup {
@@ -80,55 +48,48 @@ h1 {
     padding: 40px;
     border-radius: 25px;
     transition: 0.4s;
-    box-shadow: 0 10px 50px rgba(0,0,0,0.4);
 }
 
 .popup.show {
     transform: translate(-50%, -50%) scale(1);
 }
 
-/* Buttons */
-.yes, .no {
-    padding: 12px 20px;
-    margin: 10px;
-    border-radius: 20px;
-    border: none;
-    cursor: pointer;
+/* Slide Page */
+.slide {
+    position: fixed;
+    top: 0;
+    left: 100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #ff4d6d, #ff99ac);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 40px;
+    transition: 0.7s ease;
 }
 
-.yes {
-    background: #ff4d6d;
-    color: white;
+.slide.show {
+    left: 0;
 }
 
-.no {
-    background: white;
-    color: #ff4d6d;
-    position: absolute;
-}
-
-/* Result */
-#result {
-    margin-top: 20px;
-    font-size: 24px;
-    animation: pop 1s ease;
-}
-
-@keyframes pop {
-    from {transform: scale(0);}
-    to {transform: scale(1);}
+/* Typing effect */
+#finalText {
+    border-right: 3px solid white;
+    white-space: nowrap;
+    overflow: hidden;
 }
 
 /* Hearts */
 .heart {
     position: absolute;
     font-size: 22px;
-    animation: float 5s linear infinite;
+    animation: float 4s linear infinite;
 }
 
 @keyframes float {
-    0% {transform: translateY(100vh);}
-    100% {transform: translateY(-10vh);}
+    0% { transform: translateY(100vh); }
+    100% { transform: translateY(-10vh); }
 }
 
 </style>
@@ -139,8 +100,7 @@ h1 {
 <div class="container">
     <h1>🎂 Happy Birthday Sakshi 💖</h1>
     <p>You are my happiness ✨</p>
-
-    <button class="main-btn" onclick="startLove()">Click here 💌</button>
+    <button onclick="startLove()">Click here 💌</button>
 </div>
 
 <!-- Popup -->
@@ -150,13 +110,16 @@ h1 {
 
     <button class="yes" onclick="yesClick()">YES 💖</button>
     <button class="no" id="noBtn">NO 😢</button>
-
-    <p id="result"></p>
 </div>
 
-<!-- WORKING MUSIC -->
+<!-- Final Slide -->
+<div class="slide" id="slide">
+    <div id="finalText"></div>
+</div>
+
+<!-- Music -->
 <audio id="music" loop>
-    <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_5c9c3d0c09.mp3?filename=romantic-ambient-11064.mp3" type="audio/mp3">
+    <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_5c9c3d0c09.mp3">
 </audio>
 
 <script>
@@ -164,28 +127,28 @@ function startLove() {
     document.getElementById("popup").classList.add("show");
 
     let music = document.getElementById("music");
-    music.volume = 0.6;
     music.play().catch(()=>{});
 
-    // hearts animation
-    for(let i=0; i<30; i++){
+    // hearts
+    for(let i=0; i<25; i++){
         let heart = document.createElement("div");
         heart.innerHTML = "💖";
         heart.className = "heart";
         heart.style.left = Math.random()*100 + "vw";
-        heart.style.animationDuration = (2 + Math.random()*3) + "s";
         document.body.appendChild(heart);
 
-        setTimeout(()=>heart.remove(),5000);
+        setTimeout(()=>heart.remove(),4000);
     }
 }
 
-// YES
+// YES click → slide comes
 function yesClick() {
-    document.getElementById("result").innerHTML =
-    "💖 Now Asad is totally yours 💖";
+    let slide = document.getElementById("slide");
+    slide.classList.add("show");
 
-    // extra hearts burst
+    typeText("💖 ASAD IS TOTALLY YOURS 💖");
+
+    // celebration hearts
     for(let i=0; i<40; i++){
         let heart = document.createElement("div");
         heart.innerHTML = "💖";
@@ -195,6 +158,22 @@ function yesClick() {
 
         setTimeout(()=>heart.remove(),4000);
     }
+}
+
+// typing effect
+function typeText(text) {
+    let i = 0;
+    let speed = 80;
+    let target = document.getElementById("finalText");
+
+    function typing() {
+        if (i < text.length) {
+            target.innerHTML += text.charAt(i);
+            i++;
+            setTimeout(typing, speed);
+        }
+    }
+    typing();
 }
 
 // NO button escape

@@ -7,230 +7,154 @@
 body {
     margin: 0;
     font-family: 'Segoe UI', sans-serif;
-    overflow: hidden;
+    scroll-behavior: smooth;
+}
+
+/* Sections */
+.section {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
     text-align: center;
-    background: radial-gradient(circle at top, #ff6a88, #ff99ac, #ffdde1);
     color: white;
 }
 
-.container {
-    margin-top: 120px;
-    background: rgba(255,255,255,0.15);
-    backdrop-filter: blur(15px);
-    padding: 40px;
-    border-radius: 25px;
-    width: 60%;
-    margin-left: auto;
-    margin-right: auto;
-    box-shadow: 0 0 40px rgba(255, 105, 180, 0.4);
-    animation: fadeIn 2s ease;
-}
+/* Backgrounds */
+.home { background: linear-gradient(135deg, #ff6a88, #ff99ac); }
+.birthday { background: linear-gradient(135deg, #ff758c, #ff7eb3); }
+.proposal { background: linear-gradient(135deg, #ff4d6d, #ff99ac); }
+.final { background: radial-gradient(circle, #ff4d6d, #ffdde1); }
 
-@keyframes fadeIn {
-    from {opacity: 0; transform: translateY(50px);}
-    to {opacity: 1; transform: translateY(0);}
-}
-
-h1 {
-    font-size: 50px;
-    text-shadow: 0 0 20px white;
-}
-
+/* Button */
 button {
     padding: 12px 25px;
     border-radius: 25px;
     border: none;
     cursor: pointer;
     margin: 10px;
+    font-size: 16px;
 }
 
-.yes { background: #ff4d6d; color: white; }
-.no { background: white; color: #ff4d6d; position: absolute; }
+.yes { background: white; color: #ff4d6d; }
+.no { background: #ff4d6d; color: white; position: absolute; }
 
-.popup {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%) scale(0);
-    background: white;
-    color: #ff4d6d;
-    padding: 40px;
-    border-radius: 25px;
-    transition: 0.4s;
+/* Fade animation */
+.fade {
+    animation: fadeIn 2s ease;
 }
 
-.popup.show {
-    transform: translate(-50%, -50%) scale(1);
+@keyframes fadeIn {
+    from {opacity: 0; transform: translateY(40px);}
+    to {opacity: 1; transform: translateY(0);}
 }
 
-.slide {
-    position: fixed;
-    top: 0;
-    left: 100%;
-    width: 100%;
-    height: 100%;
-    background: radial-gradient(circle, #ff4d6d, #ff99ac);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    transition: 0.8s ease;
-}
-
-.slide.show {
-    left: 0;
-}
-
-#finalText {
-    font-size: 45px;
-    border-right: 3px solid white;
-    white-space: nowrap;
-    overflow: hidden;
-}
-
+/* Hearts */
 .heart {
     position: absolute;
-    font-size: 22px;
-    animation: float 4s linear infinite;
+    font-size: 20px;
+    animation: float 5s linear infinite;
 }
 
 @keyframes float {
-    0% { transform: translateY(100vh);}
-    100% { transform: translateY(-10vh);}
+    0% {transform: translateY(100vh);}
+    100% {transform: translateY(-10vh);}
 }
 
-.firework {
-    position: absolute;
-    width: 6px;
-    height: 6px;
-    background: white;
-    border-radius: 50%;
-    animation: explode 1s ease-out forwards;
-}
-
-@keyframes explode {
-    to {
-        transform: translate(var(--x), var(--y));
-        opacity: 0;
-    }
-}
 </style>
 </head>
 
 <body>
 
-<div class="container">
-    <h1>🎂 Happy Birthday Sakshi 💖</h1>
-    <p>You are my forever ✨</p>
-    <button onclick="startLove(this)">Click here 💌</button>
-</div>
+<!-- MUSIC -->
+<audio id="music" loop>
+    <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_5c9c3d0c09.mp3">
+</audio>
 
-<div class="popup" id="popup">
-    <h2>💖 Sakshi 💖</h2>
-    <p>Will you be mine forever? 💍🥺</p>
+<!-- HOME -->
+<section class="section home fade">
+    <h1>💖 For Sakshi 💖</h1>
+    <p>A special surprise for you ✨</p>
+    <button onclick="startMusic(); scrollToSection('birthday')">Start 💌</button>
+</section>
+
+<!-- BIRTHDAY -->
+<section id="birthday" class="section birthday fade">
+    <h1>🎂 Happy Birthday Sakshi 💖</h1>
+    <p>
+        You are the most beautiful part of my life ✨<br>
+        Every moment with you feels magical 💕
+    </p>
+    <button onclick="scrollToSection('proposal')">Next 💫</button>
+</section>
+
+<!-- PROPOSAL -->
+<section id="proposal" class="section proposal fade">
+    <h1>💍 Sakshi 💖</h1>
+    <p>Will you be mine forever? 🥺</p>
 
     <button class="yes" onclick="yesClick()">YES 💖</button>
     <button class="no" id="noBtn">NO 😢</button>
-</div>
+</section>
 
-<div class="slide" id="slide">
-    <div id="finalText"></div>
-</div>
-
-<!-- ✅ SIMPLE AUDIO (NO AUTOPLAY TRICKS) -->
-<audio id="music" loop>
-    <source src="https://cdn.pixabay.com/download/audio/2023/03/21/audio_5f9c4a8a07.mp3?filename=romantic-background-141997.mp3" type="audio/mpeg">
-</audio>
+<!-- FINAL -->
+<section id="final" class="section final">
+    <h1 id="finalText"></h1>
+</section>
 
 <script>
-
-/* 🔥 MAIN BUTTON (GUARANTEED PLAY) */
-function startLove(btn) {
-
+function startMusic() {
     let music = document.getElementById("music");
-
-    // PLAY DIRECTLY FROM CLICK
-    music.currentTime = 0;
-    music.play();
-
-    // UI update
-    btn.innerText = "Playing... 🎶";
-
-    document.getElementById("popup").classList.add("show");
-
-    createHearts(25);
+    music.play().catch(()=>{});
 }
 
-/* YES CLICK */
-function yesClick() {
-    document.getElementById("slide").classList.add("show");
+function scrollToSection(id) {
+    document.getElementById(id).scrollIntoView({behavior:'smooth'});
+}
 
+// YES CLICK
+function yesClick() {
+    scrollToSection('final');
     typeText("💖 ASAD IS TOTALLY YOURS 💖");
 
-    createHearts(40);
-    fireworks();
-}
-
-/* Typing */
-function typeText(text) {
-    let i = 0;
-    let target = document.getElementById("finalText");
-
-    function typing() {
-        if (i < text.length) {
-            target.innerHTML += text.charAt(i);
-            i++;
-            setTimeout(typing, 80);
-        }
-    }
-    typing();
-}
-
-/* Hearts */
-function createHearts(num) {
-    for(let i=0; i<num; i++){
+    // hearts
+    for(let i=0;i<40;i++){
         let heart = document.createElement("div");
-        heart.innerHTML = "💖";
-        heart.className = "heart";
-        heart.style.left = Math.random()*100 + "vw";
+        heart.innerHTML="💖";
+        heart.className="heart";
+        heart.style.left=Math.random()*100+"vw";
         document.body.appendChild(heart);
 
         setTimeout(()=>heart.remove(),4000);
     }
 }
 
-/* Fireworks */
-function fireworks() {
-    for(let i=0; i<80; i++){
-        let f = document.createElement("div");
-        f.className = "firework";
+// typing
+function typeText(text){
+    let i=0;
+    let target=document.getElementById("finalText");
 
-        let x = (Math.random()-0.5)*400 + "px";
-        let y = (Math.random()-0.5)*400 + "px";
-
-        f.style.setProperty('--x', x);
-        f.style.setProperty('--y', y);
-
-        f.style.left = "50%";
-        f.style.top = "50%";
-
-        document.body.appendChild(f);
-
-        setTimeout(()=>f.remove(),1000);
+    function type(){
+        if(i<text.length){
+            target.innerHTML+=text.charAt(i);
+            i++;
+            setTimeout(type,80);
+        }
     }
+    type();
 }
 
-/* NO BUTTON ESCAPE */
-let noBtn = document.getElementById("noBtn");
+// NO button escape
+let noBtn=document.getElementById("noBtn");
 
-noBtn.addEventListener("mouseover", () => {
-    let x = Math.random() * (window.innerWidth - 100);
-    let y = Math.random() * (window.innerHeight - 100);
+noBtn.addEventListener("mouseover",()=>{
+    let x=Math.random()*window.innerWidth;
+    let y=Math.random()*window.innerHeight;
 
-    noBtn.style.left = x + "px";
-    noBtn.style.top = y + "px";
+    noBtn.style.left=x+"px";
+    noBtn.style.top=y+"px";
 });
-
 </script>
 
 </body>

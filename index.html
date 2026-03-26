@@ -68,8 +68,8 @@ button {
 <body>
 
 <!-- MUSIC -->
-<audio id="music" loop>
-    <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_5c9c3d0c09.mp3">
+<audio id="music" loop preload="auto">
+    <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_5c9c3d0c09.mp3" type="audio/mp3">
 </audio>
 
 <!-- HOME -->
@@ -106,7 +106,24 @@ button {
 <script>
 function startMusic() {
     let music = document.getElementById("music");
-    music.play().catch(()=>{});
+
+    music.volume = 0.7;
+
+    // force load
+    music.load();
+
+    // try play
+    let playPromise = music.play();
+
+    if (playPromise !== undefined) {
+        playPromise.then(() => {
+            console.log("Music started");
+        }).catch(() => {
+            document.body.addEventListener('click', () => {
+                music.play();
+            });
+        });
+    }
 }
 
 function scrollToSection(id) {

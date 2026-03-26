@@ -27,7 +27,7 @@ body {
 .proposal { background: linear-gradient(135deg, #ff4d6d, #ff99ac); }
 .final { background: radial-gradient(circle, #ff4d6d, #ffdde1); }
 
-/* Button */
+/* Buttons */
 button {
     padding: 12px 25px;
     border-radius: 25px;
@@ -50,6 +50,14 @@ button {
     to {opacity: 1; transform: translateY(0);}
 }
 
+/* Final text typing */
+#finalText {
+    font-size: 40px;
+    border-right: 3px solid white;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
 /* Hearts */
 .heart {
     position: absolute;
@@ -61,15 +69,15 @@ button {
     0% {transform: translateY(100vh);}
     100% {transform: translateY(-10vh);}
 }
-
 </style>
+
 </head>
 
 <body>
 
 <!-- MUSIC -->
 <audio id="music" loop preload="auto">
-    <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_5c9c3d0c09.mp3" type="audio/mp3">
+    <source src="music.mp3" type="audio/mp3">
 </audio>
 
 <!-- HOME -->
@@ -104,28 +112,15 @@ button {
 </section>
 
 <script>
+
+// 🎶 MUSIC (WORKING)
 function startMusic() {
     let music = document.getElementById("music");
-
     music.volume = 0.7;
-
-    // force load
-    music.load();
-
-    // try play
-    let playPromise = music.play();
-
-    if (playPromise !== undefined) {
-        playPromise.then(() => {
-            console.log("Music started");
-        }).catch(() => {
-            document.body.addEventListener('click', () => {
-                music.play();
-            });
-        });
-    }
+    music.play();
 }
 
+// Smooth scroll
 function scrollToSection(id) {
     document.getElementById(id).scrollIntoView({behavior:'smooth'});
 }
@@ -147,7 +142,7 @@ function yesClick() {
     }
 }
 
-// typing
+// typing effect
 function typeText(text){
     let i=0;
     let target=document.getElementById("finalText");
@@ -162,16 +157,17 @@ function typeText(text){
     type();
 }
 
-// NO button escape
+// NO button escape 😂
 let noBtn=document.getElementById("noBtn");
 
 noBtn.addEventListener("mouseover",()=>{
-    let x=Math.random()*window.innerWidth;
-    let y=Math.random()*window.innerHeight;
+    let x=Math.random()*(window.innerWidth-100);
+    let y=Math.random()*(window.innerHeight-100);
 
     noBtn.style.left=x+"px";
     noBtn.style.top=y+"px";
 });
+
 </script>
 
 </body>

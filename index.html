@@ -6,49 +6,86 @@
 <style>
 body {
     margin: 0;
-    font-family: 'Segoe UI', sans-serif;
-    scroll-behavior: smooth;
+    font-family: 'Poppins', sans-serif;
+    overflow: hidden;
 }
 
 /* Sections */
 .section {
     height: 100vh;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
     text-align: center;
     color: white;
+    transition: 1s;
+    opacity: 0;
+    transform: translateY(50px);
 }
 
-/* Backgrounds */
-.home { background: linear-gradient(135deg, #ff6a88, #ff99ac); }
-.birthday { background: linear-gradient(135deg, #ff758c, #ff7eb3); }
-.proposal { background: linear-gradient(135deg, #ff4d6d, #ff99ac); }
-.final { background: radial-gradient(circle, #ff4d6d, #ffdde1); }
+.section.active {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Premium Gradient Background */
+body {
+    background: linear-gradient(135deg, #ff758c, #ff7eb3, #ffb6c1);
+    background-size: 400% 400%;
+    animation: gradientMove 10s ease infinite;
+}
+
+@keyframes gradientMove {
+    0% {background-position: 0% 50%;}
+    50% {background-position: 100% 50%;}
+    100% {background-position: 0% 50%;}
+}
+
+/* Glass Card */
+.card {
+    background: rgba(255,255,255,0.15);
+    padding: 30px;
+    border-radius: 20px;
+    backdrop-filter: blur(15px);
+    width: 70%;
+}
+
+/* Text */
+h1 {
+    font-size: 40px;
+}
+
+p {
+    font-size: 18px;
+}
 
 /* Buttons */
 button {
     padding: 12px 25px;
     border-radius: 25px;
     border: none;
-    cursor: pointer;
     margin: 10px;
+    cursor: pointer;
     font-size: 16px;
 }
 
-.yes { background: white; color: #ff4d6d; }
-.no { background: #ff4d6d; color: white; position: absolute; }
-
-/* Final text */
-#finalText {
-    font-size: 40px;
-    border-right: 3px solid white;
-    white-space: nowrap;
-    overflow: hidden;
+.yes {
+    background: white;
+    color: #ff4d6d;
 }
 
-/* Hearts */
+.no {
+    background: #ff4d6d;
+    color: white;
+    position: relative;
+}
+
+/* Floating hearts */
 .heart {
     position: absolute;
     font-size: 20px;
@@ -56,8 +93,16 @@ button {
 }
 
 @keyframes float {
-    0% {transform: translateY(100vh);}
-    100% {transform: translateY(-10vh);}
+    0% { transform: translateY(100vh); }
+    100% { transform: translateY(-10vh); }
+}
+
+/* Final text */
+#finalText {
+    font-size: 35px;
+    border-right: 3px solid white;
+    white-space: nowrap;
+    overflow: hidden;
 }
 </style>
 
@@ -65,105 +110,86 @@ button {
 
 <body>
 
-<!-- 🎶 MUSIC -->
-<audio id="music" loop preload="auto">
-    <source src=https://raw.githubusercontent.com/asadfaridi11914-pixel/birthday-wishes/refs/heads/main/music.mp3" type="audio/mp3">
+<audio id="music" loop>
+    <source src="music.mp3" type="audio/mpeg">
 </audio>
 
-<!-- HOME -->
-<section class="section home">
-    <h1>💖 For Sakshi 💖</h1>
-    <p>A special surprise for you ✨</p>
-    <button onclick="startMusic(); scrollToSection('birthday')">Start 💌</button>
-</section>
+<!-- PAGE 1 -->
+<div class="section active" id="page1">
+    <div class="card">
+        <h1>💖 For Sakshi 💖</h1>
+        <p>A special surprise just for you ✨</p>
+        <button onclick="nextPage(2); startMusic()">Open 💌</button>
+    </div>
+</div>
 
-<!-- BIRTHDAY -->
-<section id="birthday" class="section birthday">
-    <h1>🎂 Happy Birthday merijaan, sweetheart,the only love of my life💖</h1>
-    <p>You are the most beautiful part of my life ✨</p>
+<!-- PAGE 2 -->
+<div class="section" id="page2">
+    <div class="card">
+        <h1>🎂 Happy Birthday Sakshi 💖</h1>
+        <p>
+            You are the most beautiful part of my life ✨<br>
+            Every moment with you feels magical 💕<br><br>
 
-<p>Every moment with you feels magical 💕</p>
+            I will love you forever 💖<br>
+            Your happiness is my peace ✨
+        </p>
+        <button onclick="nextPage(3)">Next 💫</button>
+    </div>
+</div>
 
-<p>I want to see you successful in your life 💫</p>
+<!-- PAGE 3 -->
+<div class="section" id="page3">
+    <div class="card">
+        <h1>💍 Sakshi 💖</h1>
+        <p>Will you be mine forever? 🥺</p>
 
-<p>i want that all your birthday wishes to come true 💖</p>
+        <button class="yes" onclick="yesClick()">YES 💖</button>
+        <button class="no" id="noBtn">NO 😢</button>
+    </div>
+</div>
 
-<p>I will love you forever, because you are the one I have loved the most in my entire life 💖</p>
-
-<p>I always want to see you happy, because your happiness makes me smile ✨</p>
-
-<p>And yes, please take care of yourself, stay happy, and enjoy your birthday🎂💕</p>
-
-<p>I loveeeeeeeee youuuuuuu so so so so so much 💖🥺</p>
-    <button onclick="scrollToSection('proposal')">Next 💫</button>
-</section>
-
-<!-- PROPOSAL -->
-<section id="proposal" class="section proposal">
-    <h1>💍 Sakshi 💖</h1>
-    <p>Will you be mine forever? 🥺</p>
-
-    <button class="yes" onclick="yesClick()">YES 💖</button>
-    <button class="no" id="noBtn">NO 😢</button>
-</section>
-
-<!-- FINAL -->
-<section id="final" class="section final">
+<!-- PAGE 4 -->
+<div class="section" id="page4">
     <h1 id="finalText"></h1>
-</section>
+</div>
 
-<!-- 🔥 SCRIPT -->
 <script>
 
-// 🎶 FORCE MUSIC PLAY (FINAL FIX)
+// Page transition
+function nextPage(num) {
+    document.querySelectorAll(".section").forEach(s => s.classList.remove("active"));
+    document.getElementById("page"+num).classList.add("active");
+}
+
+// Music
 function startMusic() {
-    const music = document.getElementById("music");
-
-    music.currentTime = 0;
-    music.volume = 0.7;
-
-    const playAudio = () => {
-        music.play().then(() => {
-            console.log("Music playing");
-        }).catch(() => {
-            console.log("Retrying...");
-        });
-    };
-
-    playAudio();
-
-    document.body.addEventListener("click", playAudio, { once: true });
+    document.getElementById("music").play();
 }
 
-// Smooth scroll
-function scrollToSection(id) {
-    document.getElementById(id).scrollIntoView({behavior:'smooth'});
-}
-
-// YES CLICK
+// YES click
 function yesClick() {
-    scrollToSection('final');
+    nextPage(4);
     typeText("💖 ASAD IS TOTALLY YOURS 💖");
 
     for(let i=0;i<40;i++){
-        let heart = document.createElement("div");
+        let heart=document.createElement("div");
         heart.innerHTML="💖";
         heart.className="heart";
         heart.style.left=Math.random()*100+"vw";
         document.body.appendChild(heart);
-
         setTimeout(()=>heart.remove(),4000);
     }
 }
 
-// typing effect
+// Typing effect
 function typeText(text){
     let i=0;
     let target=document.getElementById("finalText");
 
     function type(){
         if(i<text.length){
-            target.innerHTML+=text.charAt(i);
+            target.innerHTML+=text[i];
             i++;
             setTimeout(type,80);
         }
@@ -171,15 +197,13 @@ function typeText(text){
     type();
 }
 
-// NO button escape 😂
+// NO button escape
 let noBtn=document.getElementById("noBtn");
 
 noBtn.addEventListener("mouseover",()=>{
-    let x=Math.random()*(window.innerWidth-100);
-    let y=Math.random()*(window.innerHeight-100);
-
-    noBtn.style.left=x+"px";
-    noBtn.style.top=y+"px";
+    noBtn.style.position="absolute";
+    noBtn.style.left=Math.random()*90+"vw";
+    noBtn.style.top=Math.random()*90+"vh";
 });
 
 </script>

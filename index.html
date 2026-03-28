@@ -13,7 +13,6 @@ body {
     color: white;
 }
 
-/* Animated gradient */
 body {
     background: linear-gradient(-45deg, #ff6a88, #ff99ac, #ff758c, #ffb6c1);
     background-size: 400% 400%;
@@ -26,7 +25,6 @@ body {
     100% {background-position: 0% 50%;}
 }
 
-/* Sections */
 .section {
     height: 100vh;
     display: none;
@@ -45,7 +43,6 @@ body {
     transform: scale(1);
 }
 
-/* Glass card */
 .card {
     background: rgba(255,255,255,0.15);
     padding: 30px;
@@ -55,7 +52,6 @@ body {
     width: min(90%, 500px);
 }
 
-/* Headings */
 h1 {
     font-size: clamp(32px, 6vw, 60px);
     font-family: 'Great Vibes', cursive;
@@ -66,7 +62,6 @@ p {
     font-size: clamp(16px, 3.5vw, 22px);
 }
 
-/* Buttons */
 button {
     padding: 12px 25px;
     border-radius: 25px;
@@ -78,7 +73,6 @@ button {
 .yes { background: white; color: #ff4d6d; }
 .no { background: #ff4d6d; color: white; position: relative; }
 
-/* Hearts */
 .heart {
     position: absolute;
     font-size: 20px;
@@ -90,7 +84,6 @@ button {
     100% {transform: translateY(-10vh);}
 }
 
-/* Final text */
 #finalText {
     font-size: clamp(28px, 5vw, 50px);
     border-right: 3px solid white;
@@ -98,7 +91,6 @@ button {
     overflow: hidden;
 }
 
-/* Textarea */
 textarea {
     width: 90%;
     padding: 10px;
@@ -128,14 +120,11 @@ textarea {
 <!-- PAGE 2 -->
 <div class="section" id="page2">
     <div class="card">
-        <h1>🎂 Happy Birthday sweetheart, merijaan 💖</h1>
+        <h1>🎂 Happy Birthday sweetheart 💖</h1>
         <p>You are the most beautiful part of my life ✨</p>
         <p>Every moment with you feels magical 💕</p>
-        <p>I want to see you successful in your life 💫</p>
-        <p>I want all your birthday wishes to come true 💖</p>
         <p>I will love you forever 💖</p>
         <p>Your happiness is my peace ✨</p>
-        <p>Take care & enjoy your birthday 🎂💕</p>
         <p>I loveeeeeeeee youuuuuuu so much 💖🥺</p>
         <button onclick="nextPage(3)">Next 💫</button>
     </div>
@@ -156,31 +145,26 @@ textarea {
     <h1 id="finalText"></h1>
 
     <div class="card">
-        <p>Leave a message for me 💌</p>
+        <p>Send me your reply 💌</p>
 
         <textarea id="replyInput" placeholder="Write something..."></textarea>
 
         <br>
-        <button onclick="showReply()">Send 💖</button>
-
-        <p id="replyOutput"></p>
+        <button onclick="sendWhatsApp()">Send on WhatsApp 💬</button>
     </div>
 </div>
 
 <script>
 
-// Page switch
 function nextPage(num) {
     document.querySelectorAll(".section").forEach(s => s.classList.remove("active"));
     document.getElementById("page"+num).classList.add("active");
 }
 
-// Music
 function startMusic() {
     document.getElementById("music").play().catch(()=>{});
 }
 
-// YES click
 function yesClick() {
     nextPage(4);
     typeText("💖 With your yes… you’ve taken complete ownership of my heart 💖✨");
@@ -195,7 +179,6 @@ function yesClick() {
     }
 }
 
-// Typing
 function typeText(text){
     let i=0;
     let el=document.getElementById("finalText");
@@ -210,19 +193,22 @@ function typeText(text){
     type();
 }
 
-// Reply function
-function showReply() {
-    let input = document.getElementById("replyInput").value;
-    let output = document.getElementById("replyOutput");
+// 💬 WHATSAPP FUNCTION
+function sendWhatsApp() {
+    let msg = document.getElementById("replyInput").value;
 
-    if(input.trim() !== "") {
-        output.innerHTML = "💖 Your message: " + input;
-    } else {
-        output.innerHTML = "😅 Write something first...";
+    if(msg.trim() === "") {
+        alert("Write something first 💖");
+        return;
     }
+
+    let phone = "919XXXXXXXXX"; // 👉 replace with your number
+    let url = "https://wa.me/" + phone + "?text=" + encodeURIComponent(msg);
+
+    window.open(url, "_blank");
 }
 
-// NO button escape
+// NO escape
 let noBtn=document.getElementById("noBtn");
 
 noBtn.addEventListener("mouseover",()=>{

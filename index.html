@@ -48,8 +48,8 @@ body {
 /* Glass card */
 .card {
     background: rgba(255,255,255,0.15);
-    padding: 40px;
-    border-radius: 25px;
+    padding: 30px;
+    border-radius: 20px;
     backdrop-filter: blur(20px);
     box-shadow: 0 10px 40px rgba(0,0,0,0.2);
     width: min(90%, 500px);
@@ -58,49 +58,31 @@ body {
 /* Headings */
 h1 {
     font-size: clamp(32px, 6vw, 60px);
-    margin-bottom: 15px;
     font-family: 'Great Vibes', cursive;
-    letter-spacing: 1px;
     text-shadow: 0 0 15px rgba(255,255,255,0.6);
 }
 
 p {
     font-size: clamp(16px, 3.5vw, 22px);
-    line-height: 1.6;
-    opacity: 0.95;
 }
 
 /* Buttons */
 button {
-    padding: 14px 32px;
-    border-radius: 30px;
+    padding: 12px 25px;
+    border-radius: 25px;
     border: none;
-    margin: 15px;
+    margin: 10px;
     cursor: pointer;
-    font-size: clamp(14px, 3vw, 18px);
-    transition: 0.3s;
 }
 
-button:hover {
-    transform: scale(1.1);
-}
-
-.yes {
-    background: white;
-    color: #ff4d6d;
-}
-
-.no {
-    background: #ff4d6d;
-    color: white;
-    position: relative;
-}
+.yes { background: white; color: #ff4d6d; }
+.no { background: #ff4d6d; color: white; position: relative; }
 
 /* Hearts */
 .heart {
     position: absolute;
-    font-size: 22px;
-    animation: float 6s linear infinite;
+    font-size: 20px;
+    animation: float 5s linear infinite;
 }
 
 @keyframes float {
@@ -114,6 +96,15 @@ button:hover {
     border-right: 3px solid white;
     white-space: nowrap;
     overflow: hidden;
+}
+
+/* Textarea */
+textarea {
+    width: 90%;
+    padding: 10px;
+    border-radius: 10px;
+    border: none;
+    resize: none;
 }
 </style>
 
@@ -139,14 +130,13 @@ button:hover {
     <div class="card">
         <h1>🎂 Happy Birthday sweetheart, merijaan 💖</h1>
         <p>You are the most beautiful part of my life ✨</p>
-
-<p>Every moment with you feels magical 💕</p>
-<p>I want to see you successful in your life 💫</p>
-<p>I want all your birthday wishes to come true 💖</p>
-<p>I will love you forever, because you are the one I have loved the most in my entire life 💖</p>
-<p>I always want to see you happy, because your happiness gives me a deep sense of peace and comfort ✨</p>
-<p>And yes, please take care of yourself, stay happy, and enjoy your birthday to the fullest 🎂💕</p>
-<p>I loveeeeeeeee youuuuuuu so so so so so much 💖🥺</p>
+        <p>Every moment with you feels magical 💕</p>
+        <p>I want to see you successful in your life 💫</p>
+        <p>I want all your birthday wishes to come true 💖</p>
+        <p>I will love you forever 💖</p>
+        <p>Your happiness is my peace ✨</p>
+        <p>Take care & enjoy your birthday 🎂💕</p>
+        <p>I loveeeeeeeee youuuuuuu so much 💖🥺</p>
         <button onclick="nextPage(3)">Next 💫</button>
     </div>
 </div>
@@ -156,7 +146,6 @@ button:hover {
     <div class="card">
         <h1>💍 Sakshi 💖</h1>
         <p>Will you be mine forever? 🥺</p>
-
         <button class="yes" onclick="yesClick()">YES 💖</button>
         <button class="no" id="noBtn">NO 😢</button>
     </div>
@@ -165,11 +154,22 @@ button:hover {
 <!-- FINAL -->
 <div class="section" id="page4">
     <h1 id="finalText"></h1>
+
+    <div class="card">
+        <p>Leave a message for me 💌</p>
+
+        <textarea id="replyInput" placeholder="Write something..."></textarea>
+
+        <br>
+        <button onclick="showReply()">Send 💖</button>
+
+        <p id="replyOutput"></p>
+    </div>
 </div>
 
 <script>
 
-// Page transition
+// Page switch
 function nextPage(num) {
     document.querySelectorAll(".section").forEach(s => s.classList.remove("active"));
     document.getElementById("page"+num).classList.add("active");
@@ -177,15 +177,13 @@ function nextPage(num) {
 
 // Music
 function startMusic() {
-    let music = document.getElementById("music");
-    music.volume = 0.7;
-    music.play().catch(()=>{});
+    document.getElementById("music").play().catch(()=>{});
 }
 
 // YES click
 function yesClick() {
     nextPage(4);
-    typeText("💖 With your yes… you’ve taken complete ownership of my heart 💖✨ 💖");
+    typeText("💖 With your yes… you’ve taken complete ownership of my heart 💖✨");
 
     for(let i=0;i<40;i++){
         let heart=document.createElement("div");
@@ -193,19 +191,18 @@ function yesClick() {
         heart.className="heart";
         heart.style.left=Math.random()*100+"vw";
         document.body.appendChild(heart);
-
-        setTimeout(()=>heart.remove(),5000);
+        setTimeout(()=>heart.remove(),4000);
     }
 }
 
-// Typing effect
+// Typing
 function typeText(text){
     let i=0;
-    let target=document.getElementById("finalText");
+    let el=document.getElementById("finalText");
 
     function type(){
         if(i<text.length){
-            target.innerHTML+=text[i];
+            el.innerHTML+=text[i];
             i++;
             setTimeout(type,80);
         }
@@ -213,13 +210,25 @@ function typeText(text){
     type();
 }
 
-// NO button escape 😈
+// Reply function
+function showReply() {
+    let input = document.getElementById("replyInput").value;
+    let output = document.getElementById("replyOutput");
+
+    if(input.trim() !== "") {
+        output.innerHTML = "💖 Your message: " + input;
+    } else {
+        output.innerHTML = "😅 Write something first...";
+    }
+}
+
+// NO button escape
 let noBtn=document.getElementById("noBtn");
 
 noBtn.addEventListener("mouseover",()=>{
     noBtn.style.position="absolute";
-    noBtn.style.left=Math.random()*85+"vw";
-    noBtn.style.top=Math.random()*85+"vh";
+    noBtn.style.left=Math.random()*80+"vw";
+    noBtn.style.top=Math.random()*80+"vh";
 });
 
 </script>
